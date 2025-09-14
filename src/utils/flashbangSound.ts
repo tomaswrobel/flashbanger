@@ -13,10 +13,7 @@ export function flashbangSound(seconds: number) {
 		oscillator.connect(gainNode);
 		gainNode.connect(audioContext.destination);
 		oscillator.start(audioContext.currentTime);
-		gainNode.gain.exponentialRampToValueAtTime(
-			0.5,
-			audioContext.currentTime + 0.05
-		);
+		gainNode.gain.exponentialRampToValueAtTime(0.5, audioContext.currentTime + 0.05);
 		gainNode.gain.exponentialRampToValueAtTime(
 			0.0001,
 			audioContext.currentTime + seconds

@@ -40,8 +40,7 @@ export default defineConfig({
 				],
 				display: "standalone",
 				theme_color: "#000000",
-				description:
-					"Flashbanger is a app for making your frenemies blind.",
+				description: "Flashbanger is a app for making your frenemies blind.",
 			},
 		}),
 	],

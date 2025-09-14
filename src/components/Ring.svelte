@@ -13,10 +13,10 @@
 
 <circle
 	r="60"
+	fill="transparent"
+	stroke-width="12"
 	{...props}
 	cx="400"
 	cy="240"
-	fill="transparent"
-	stroke-width="12"
 	class={["stroke-gray-300", props.class]}
 ></circle>

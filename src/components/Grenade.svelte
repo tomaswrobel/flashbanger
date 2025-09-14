@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	const {children, ...props}: Props = $props();
+	const { children, ...props }: Props = $props();
 	const id = $props.id();
 </script>
 
