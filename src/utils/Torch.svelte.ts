@@ -1,6 +1,6 @@
 class Torch {
 	private stream?: MediaStream;
-	private checkVideoInput = false;
+	public checkVideoInput = $state(false);
 
 	async enable(options?: Torch.Options) {
 		if (!(await this.isAvailable()) || (await this.isEnabled(options))) {

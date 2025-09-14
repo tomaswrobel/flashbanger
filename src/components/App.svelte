@@ -4,16 +4,16 @@
 	import Ring from "./Ring.svelte";
 	import type { MouseEventHandler } from "svelte/elements";
 	import { flashbangSound } from "../utils/flashbangSound.ts";
-	import Torch from "../utils/Torch.ts";
+	import Torch from "../utils/Torch.svelte.ts";
 	import Settings from "@material-symbols/svg-400/rounded/settings-fill.svg?raw";
 	import type { Snippet } from "svelte";
 
 	let settingsOpen = $state(false);
 	let useSounds = $state(true);
 	let useTorch = $state(true);
+	const torch = new Torch();
 
 	const dropRing: MouseEventHandler<SVGCircleElement> = async e => {
-		const torch = new Torch();
 		const ring = e.currentTarget;
 
 		const dropAnimation = ring.animate(
@@ -105,7 +105,10 @@
 			<Konsta.List>
 				<Konsta.ListItem label {...createTitle("Use torch")}>
 					{#snippet after()}
-						<Konsta.Toggle bind:checked={useTorch} />
+						<Konsta.Toggle
+							bind:checked={useTorch}
+							disabled={torch.checkVideoInput}
+						/>
 					{/snippet}
 				</Konsta.ListItem>
 
