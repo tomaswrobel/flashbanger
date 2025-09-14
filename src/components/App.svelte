@@ -74,7 +74,7 @@
 	}
 </script>
 
-<Konsta.App theme="material" class="dark">
+<Konsta.App theme="material" class="dark" safeAreas={false}>
 	<Konsta.Page class="overflow-hidden">
 		<Konsta.Navbar {...createTitle("Flashbang")}>
 			{#snippet right()}
