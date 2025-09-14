@@ -1,13 +1,9 @@
 class Torch {
 	private stream?: MediaStream;
+	private checkVideoInput = false;
 
 	async enable(options?: Torch.Options) {
-		const available = this.isAvailable();
-		if (!available) {
-			return;
-		}
-		const enabled = this.isEnabled(options);
-		if (enabled) {
+		if (!(await this.isAvailable()) || (await this.isEnabled(options))) {
 			return;
 		}
 		const stream = options?.stream ?? this.stream;
@@ -17,19 +13,22 @@ class Torch {
 				torch: true,
 			});
 		} else {
-			this.stream = await navigator.mediaDevices.getUserMedia({
-				audio: false,
-				video: {
-					facingMode: "environment",
-					torch: true,
-				},
-			});
+			try {
+				this.stream = await navigator.mediaDevices.getUserMedia({
+					audio: false,
+					video: {
+						facingMode: "environment",
+						torch: true,
+					},
+				});
+			} catch {
+				this.checkVideoInput = true;
+			}
 		}
 	}
 
 	async disable(options?: Torch.Options) {
-		const available = this.isAvailable();
-		if (!available) {
+		if (!(await this.isAvailable())) {
 			return;
 		}
 		if (options?.stream) {
@@ -39,17 +38,22 @@ class Torch {
 			});
 		} else {
 			this.stream?.getTracks().forEach(track => track.stop());
-			delete this.stream;
+			this.stream = undefined;
 		}
 	}
 
-	isAvailable() {
-		return "torch" in navigator.mediaDevices.getSupportedConstraints();
+	async isAvailable() {
+		return (
+			(!this.checkVideoInput ||
+				(await navigator.mediaDevices.enumerateDevices()).some(
+					d => d.kind === "videoinput" && d.deviceId
+				)) &&
+			"torch" in navigator.mediaDevices.getSupportedConstraints()
+		);
 	}
 
-	isEnabled(options?: Torch.Options) {
-		const available = this.isAvailable();
-		if (available) {
+	async isEnabled(options?: Torch.Options) {
+		if (await this.isAvailable()) {
 			const stream = options?.stream ?? this.stream;
 			if (stream?.active) {
 				const [videoTrack] = stream.getVideoTracks();
@@ -60,7 +64,7 @@ class Torch {
 	}
 
 	async toggle(options?: Torch.Options) {
-		if (this.isEnabled(options)) {
+		if (await this.isEnabled(options)) {
 			return this.disable(options);
 		} else {
 			return this.enable(options);
