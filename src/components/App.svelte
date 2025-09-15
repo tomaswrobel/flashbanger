@@ -2,7 +2,7 @@
 	import * as Konsta from "konsta/svelte";
 	import Grenade from "./Grenade.svelte";
 	import Ring from "./Ring.svelte";
-	import type { MouseEventHandler } from "svelte/elements";
+	import type { EventHandler } from "svelte/elements";
 	import { flashbangSound } from "../utils/flashbangSound.ts";
 	import Torch from "../utils/Torch.svelte.ts";
 	import Settings from "@material-symbols/svg-400/rounded/settings-fill.svg?raw";
@@ -13,7 +13,7 @@
 	let useTorch = $state(true);
 	const torch = new Torch();
 
-	const dropRing: MouseEventHandler<SVGCircleElement> = async e => {
+	const dropRing: EventHandler<Event, SVGCircleElement> = async e => {
 		const ring = e.currentTarget;
 
 		const dropAnimation = ring.animate(
@@ -76,7 +76,7 @@
 
 <Konsta.App theme="material" class="dark" safeAreas={false}>
 	<Konsta.Page class="overflow-hidden">
-		<Konsta.Navbar {...createTitle("Flashbang")}>
+		<Konsta.Navbar {...createTitle("Flashbanger")}>
 			{#snippet right()}
 				<Konsta.Button
 					clear
@@ -91,7 +91,7 @@
 
 		<div class="flex h-full justify-center items-center">
 			<Grenade class="w-3/4 max-h-[75vh] overflow-visible">
-				<Ring onclick={dropRing} />
+				<Ring onmousedown={dropRing} ontouchstart={dropRing} />
 			</Grenade>
 		</div>
 		<Konsta.Dialog

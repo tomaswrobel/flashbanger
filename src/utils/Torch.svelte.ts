@@ -57,7 +57,8 @@ class Torch {
 			const stream = options?.stream ?? this.stream;
 			if (stream?.active) {
 				const [videoTrack] = stream.getVideoTracks();
-				return !!videoTrack.getSettings().torch;
+				const settings = videoTrack.getSettings();
+				return "torch" in settings && !!settings.torch;
 			}
 		}
 		return false;

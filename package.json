@@ -28,7 +28,7 @@
 		"vite-plugin-pwa": "^1.0.3"
 	},
 	"dependencies": {
-		"@fontsource/roboto": "^5.2.6",
+		"@fontsource/roboto": "^5.2.7",
 		"@material-symbols/svg-400": "^0.35.1",
 		"konsta": "^5.0.1"
 	},
