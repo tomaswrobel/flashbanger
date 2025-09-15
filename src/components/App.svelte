@@ -6,7 +6,10 @@
 	import { flashbangSound } from "../utils/flashbangSound.ts";
 	import Torch from "../utils/Torch.svelte.ts";
 	import Settings from "@material-symbols/svg-400/rounded/settings-fill.svg?raw";
+	import Close from "@material-symbols/svg-400/rounded/close-fill.svg?raw";
 	import type { Snippet } from "svelte";
+	import README from "../../README.md";
+	import Package from "../../package.json";
 
 	let settingsOpen = $state(false);
 	let useSounds = $state(true);
@@ -94,40 +97,68 @@
 				<Ring onmousedown={dropRing} ontouchstart={dropRing} />
 			</Grenade>
 		</div>
-		<Konsta.Dialog
+		<Konsta.Popup
 			opened={settingsOpen}
 			onBackdropClick={() => (settingsOpen = false)}
 		>
-			{#snippet title()}
-				Settings
-			{/snippet}
-
-			<Konsta.List>
-				<Konsta.ListItem label {...createTitle("Use torch")}>
-					{#snippet after()}
-						<Konsta.Toggle
-							bind:checked={useTorch}
-							disabled={torch.checkVideoInput}
-						/>
+			<Konsta.Page>
+				<Konsta.Navbar {...createTitle("Settings")}>
+					{#snippet right()}
+						<Konsta.Button
+							clear
+							rounded
+							class="fill-current *:size-[2em]"
+							onclick={() => (settingsOpen = false)}
+						>
+							{@html Close}
+						</Konsta.Button>
 					{/snippet}
-				</Konsta.ListItem>
+				</Konsta.Navbar>
 
-				<Konsta.ListItem label {...createTitle("Use sounds")}>
-					{#snippet after()}
-						<Konsta.Toggle bind:checked={useSounds} />
+				<Konsta.Card>
+					{#snippet header()}
+						Settings
 					{/snippet}
-				</Konsta.ListItem>
-			</Konsta.List>
+					{#snippet footer()}
+						Flashbanger does not use your camera, just its light.
+					{/snippet}
+					<Konsta.List class="-my-2">
+						<Konsta.ListItem label {...createTitle("Use torch")}>
+							{#snippet after()}
+								<Konsta.Toggle
+									bind:checked={useTorch}
+									disabled={torch.checkVideoInput}
+								/>
+							{/snippet}
+						</Konsta.ListItem>
 
-			<Konsta.Block>
-				Flashbanger does not use your camera, just its light.
-			</Konsta.Block>
+						<Konsta.ListItem label {...createTitle("Use sounds")}>
+							{#snippet after()}
+								<Konsta.Toggle bind:checked={useSounds} />
+							{/snippet}
+						</Konsta.ListItem>
+					</Konsta.List>
+				</Konsta.Card>
 
-			{#snippet buttons()}
-				<Konsta.DialogButton onclick={() => (settingsOpen = false)}>
-					Close
-				</Konsta.DialogButton>
-			{/snippet}
-		</Konsta.Dialog>
+				<Konsta.Card>
+					{#snippet header()}
+						About | <a
+							class="text-md-dark-primary"
+							href={Package.repository.url}>GitHub</a
+						>
+					{/snippet}
+					{#snippet footer()}
+						Open Source &hearts; by {Package.author.name}
+					{/snippet}
+					<Konsta.Block
+						strong
+						class="prose prose-headings:text-inherit prose-bold:text-inherit prose-a:text-md-dark-primary -my-2"
+						style="--tw-prose-bold: inherit; --tw-prose-headings: inherit;  --tw-prose-links: inherit;"
+					>
+						<README />
+					</Konsta.Block>
+				</Konsta.Card>
+			</Konsta.Page>
+		</Konsta.Popup>
 	</Konsta.Page>
 </Konsta.App>
