@@ -23,7 +23,7 @@
 				iterations: 1,
 				fill: "forwards",
 				easing: "cubic-bezier(0.42, 0, 0.58, 1)",
-			}
+			},
 		);
 		await dropAnimation.finished;
 
@@ -34,7 +34,7 @@
 				iterations: 1,
 				fill: "forwards",
 				easing: "cubic-bezier(0.42, 0, 0.58, 1)",
-			}
+			},
 		);
 
 		if (useTorch) {
@@ -60,12 +60,12 @@
 				iterations: 1,
 				fill: "forwards",
 				easing: "cubic-bezier(0.42, 0, 0.58, 1)",
-			}
+			},
 		);
 		await unflashAnimation.finished;
 
 		if (useTorch) {
-			await torch.enable();
+			await torch.disable();
 		}
 	};
 
