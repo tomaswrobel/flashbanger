@@ -99,6 +99,7 @@
 		</div>
 		<Konsta.Popup
 			opened={settingsOpen}
+			class={settingsOpen ? "" : "hidden"}
 			onBackdropClick={() => (settingsOpen = false)}
 		>
 			<Konsta.Page>
